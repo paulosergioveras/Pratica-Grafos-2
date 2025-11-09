@@ -51,4 +51,4 @@ def create_map_image(file_txt, file_png):
     plt.close()
     print(f"Image save in: {file_png}")
 
-create_map_image('map.txt', 'map.png')
+create_map_image('mapa/map.txt', 'map.png')
