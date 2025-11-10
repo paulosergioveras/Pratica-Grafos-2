@@ -143,14 +143,79 @@ def plot_graph(map_file, graph, vertices, edges_to_draw, output, title, color='b
     plt.close()
     print(f"Salvo: {output}")
 
-if __name__ == "__main__":
-    MAP_FILE = 'mapa/map.txt'
+def save_tree_to_file(mst, output_file):
+
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write("# Árvore Geradora Mínima (MST) - Formato: vértice: [(vizinho, peso), ...]\n")
+        f.write("# Cada linha representa um vértice e suas conexões\n\n")
+        
+        for vertice in sorted(mst.keys()):
+            conexoes = ", ".join([f"({viz[0]}, {viz[1]:.2f})" for viz in mst[vertice]])
+            
+            f.write(f"{vertice}: [{conexoes}]\n")
     
+    print(f"Árvore salva em: {output_file}")
+
+def load_tree_from_file(input_file):
+    mst = {}
+    
+    with open(input_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            
+            if not line or line.startswith('#'):
+                continue
+            
+            try:
+                vertice_str, conexoes_str = line.split(': [')
+                conexoes_str = conexoes_str.rstrip(']')
+                vertice = eval(vertice_str)
+                conexoes = []
+
+                if conexoes_str:
+                    partes = conexoes_str.split('), (')
+                    for parte in partes:
+                        parte = parte.strip('()').strip()
+                        if parte:
+                            coords_peso = parte.split(', ')
+                            if len(coords_peso) >= 3:
+                                x = float(coords_peso[0])
+                                y = float(coords_peso[1])
+                                peso = float(coords_peso[2])
+                                conexoes.append(((x, y), peso))
+                
+                mst[vertice] = conexoes
+                
+            except Exception as e:
+                print(f"Erro ao processar linha: {line}")
+                print(f"Erro: {e}")
+                continue
+    
+    print(f"Árvore carregada de: {input_file}")
+    print(f"Total de vértices: {len(mst)}")
+    
+    return mst
+
+if __name__ == "__main__":
+    MAP_FILE = '../mapa/map.txt'
+    MST_FILE = '../mapa/mst_tree.txt'
+    
+    print("Criando grafo de visibilidade...")
     graph, vertices = create_visibility_graph(MAP_FILE)
     plot_graph(MAP_FILE, graph, vertices, graph, 'visibility_graph.png', 
                'Grafo de Visibilidade', 'b')
     
+    print("Aplicando algoritmo de Kruskal...")
     mst, total_weight = kruskal_mst(graph, vertices)
+    print(f"   Peso total da MST: {total_weight:.2f}")
     plot_graph(MAP_FILE, graph, vertices, mst, 'mst_kruskal.png', 
                'Árvore Geradora Mínima (Kruskal)', 'g')
     
+    print("Salvando árvore em arquivo...")
+    save_tree_to_file(mst, MST_FILE)
+    
+    print("\nTestando carregamento da árvore...")
+    mst_carregada = load_tree_from_file(MST_FILE)
+    print(f"   Árvore carregada com sucesso!")
+    
+    print("\nTodos os passos concluídos!")
