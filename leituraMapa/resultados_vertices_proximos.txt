@@ -1,0 +1,20 @@
+# Resultados - Vértices Mais Próximos
+# Formato: Posição -> Vértice Mais Próximo -> Distância
+============================================================
+
+Posição: (100, 100)
+Vértice Mais Próximo: (100.0, 180.0)
+Distância: 80.00
+----------------------------------------
+Posição: (500, 500)
+Vértice Mais Próximo: (520.0, 580.0)
+Distância: 82.46
+----------------------------------------
+Posição: (800, 800)
+Vértice Mais Próximo: (800.0, 700.0)
+Distância: 100.00
+----------------------------------------
+Posição: (300, 700)
+Vértice Mais Próximo: (320.0, 750.0)
+Distância: 53.85
+----------------------------------------
