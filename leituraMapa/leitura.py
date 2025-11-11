@@ -77,7 +77,6 @@ def create_visibility_graph(map_file):
     return graph, vertices
 
 def kruskal_mst(graph, vertices):
-
     edges = sorted(set((distance(v1, v2), tuple(sorted([v1, v2]))) 
                       for v1 in graph for v2, _ in graph[v1]))
     edges = [(w, e[0], e[1]) for w, e in edges]
@@ -151,10 +150,8 @@ def plot_graph(map_file, graph, vertices, edges_to_draw, output, title, color='b
     ax.set_title(title)
     plt.savefig(output, dpi=150, bbox_inches='tight')
     plt.close()
-    print(f"Salvo: {output}")
 
 def save_tree_to_file(mst, output_file):
-
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write("# Árvore Geradora Mínima (MST) - Formato: vértice: [(vizinho, peso), ...]\n")
         f.write("# Cada linha representa um vértice e suas conexões\n\n")
@@ -163,8 +160,6 @@ def save_tree_to_file(mst, output_file):
             conexoes = ", ".join([f"({viz[0]}, {viz[1]:.2f})" for viz in mst[vertice]])
             
             f.write(f"{vertice}: [{conexoes}]\n")
-    
-    print(f"Árvore salva em: {output_file}")
 
 def load_tree_from_file(input_file):
     mst = {}
@@ -197,12 +192,7 @@ def load_tree_from_file(input_file):
                 mst[vertice] = conexoes
                 
             except Exception as e:
-                print(f"Erro ao processar linha: {line}")
-                print(f"Erro: {e}")
                 continue
-    
-    print(f"Árvore carregada de: {input_file}")
-    print(f"Total de vértices: {len(mst)}")
     
     return mst
 
@@ -210,22 +200,14 @@ if __name__ == "__main__":
     MAP_FILE = '../mapa/map.txt'
     MST_FILE = '../mapa/mst_tree.txt'
     
-    print("Criando grafo de visibilidade...")
     graph, vertices = create_visibility_graph(MAP_FILE)
     plot_graph(MAP_FILE, graph, vertices, graph, 'visibility_graph.png', 
                'Grafo de Visibilidade', 'b')
+    print("Gerado: visibility_graph.png")
     
-    print("Aplicando algoritmo de Kruskal...")
     mst, total_weight = kruskal_mst(graph, vertices)
-    print(f"   Peso total da MST: {total_weight:.2f}")
     plot_graph(MAP_FILE, graph, vertices, mst, 'mst_kruskal.png', 
                'Árvore Geradora Mínima (Kruskal)', 'g')
+    print("Gerado: mst_kruskal.png")
     
-    print("Salvando árvore em arquivo...")
     save_tree_to_file(mst, MST_FILE)
-    
-    print("\nTestando carregamento da árvore...")
-    mst_carregada = load_tree_from_file(MST_FILE)
-    print(f"   Árvore carregada com sucesso!")
-    
-    print("\nTodos os passos concluídos!")
