@@ -134,9 +134,19 @@ def plot_graph(map_file, graph, vertices, edges_to_draw, output, title, color='b
                        color=color, alpha=0.5, linewidth=1.5)
                 drawn.add(edge)
     
-    # Vértices
+    # Vértices com coordenadas
     for v in vertices:
         ax.plot(v[0], v[1], 'ro', markersize=5)
+        
+        ax.text(v[0], v[1] + 15,
+                f'({v[0]:.0f},{v[1]:.0f})',
+                fontsize=8,
+                ha='center',
+                va='bottom',
+                bbox=dict(boxstyle='round,pad=0.3',
+                         facecolor='white',
+                         edgecolor='none',
+                         alpha=0.7))
     
     ax.set_title(title)
     plt.savefig(output, dpi=150, bbox_inches='tight')
