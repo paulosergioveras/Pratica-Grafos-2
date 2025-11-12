@@ -102,6 +102,23 @@ Após isso, gerará dois arquivo nessa pasta:
 
    ![Arquivo .txt com as posições e os vértices da árvore mais próximos](docs/resultadosverticesProximos.png)
 
+
+## Item 5 e 6
+
+Na pasta mapa:
+
+Compile o arquivo verticeProximo.py:
+```bash
+python menor_caminho.py
+```
+Ao executar o arquivo, ele pedirá coordenadas arbitrárias via terminal.
+
+Ex: Origem (0,0)
+   Destino (1000, 1000)
+
+![fotocaminhocurto](mapa/shortest_path.png)
+
+
     
 
   
